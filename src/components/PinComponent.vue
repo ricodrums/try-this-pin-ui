@@ -6,9 +6,9 @@
     <div class="body q-py-lg">
       <q-input dense label="try this" :model-value="currentPin"></q-input>
     </div>
-    <div class="footer row justify-evenly">
-      <q-btn class="q-px-md" dense no-caps color="primary" @click="pinTried()">Next</q-btn>
-      <q-btn class="q-px-md" dense no-caps color="primary" @click="pinTried()">Next</q-btn>
+    <div class="footer row justify-around">
+      <q-btn class="q-px-md" dense no-caps color="positive" @click="pinTried()" label="Random"></q-btn>
+      <q-btn class="q-px-md" dense no-caps color="primary" @click="pinTried()" label="Next Pin"></q-btn>
     </div>
   </div>
 </template>

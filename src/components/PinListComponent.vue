@@ -1,26 +1,18 @@
 <template>
   <div>
-    <div class="pin-list-item q-py-sm row justify-around" v-for="pin in pinList" :key="pin">
-      <span>{{ pin.pin }}</span>
-      <span>{{ pin.status ? 'check' : 'nchck' }}</span>
+    <div class="pin-list-item q-py-sm row justify-evenly" v-for="pin in pinList" :key="pin.pin">
+      <q-btn flat dense
+        :color="!!pin.status ? 'positive' : 'negative'"
+        :label="pin.pin"></q-btn>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue';
+import { ref } from 'vue';
 
-const pinList = ref();
+import pinListJSON from 'src/assets/pinList.json';
 
-onBeforeMount(() => {
-  pinList.value = [];
-  for (let index = 0; index < 1000; index++) {
-    const element = {
-      pin: index < 10 ? '000' + index : index < 100 ? '00'+index : index < 1000 ? '0'+index : index,
-      status: !!(index%2)
-    };
-    pinList.value.push(element);
-  }
-});
+const pinList = ref(pinListJSON);
 
 </script>

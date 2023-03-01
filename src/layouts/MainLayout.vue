@@ -7,7 +7,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer persistent behavior="desktop" :width="200" v-model="leftDrawerOpen" side="left" bordered>
+    <q-drawer persistent behavior="desktop" :width="100" v-model="leftDrawerOpen" side="left" bordered>
       <pin-list-component />
     </q-drawer>
 
