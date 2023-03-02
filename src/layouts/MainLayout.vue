@@ -19,18 +19,39 @@
       side="left"
       bordered
     >
-      <pin-list-component />
+      <pin-list-component @update-selected-pin="updateSelectedPin" ref="pinListRef"/>
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <PinComponent :selected-pin="selectedPin" @update-pin-list="updatePinList"/>
+      <q-separator />
+      <custom-pin-component />
     </q-page-container>
   </q-layout>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
+import { Pin } from 'src/components/models';
 import PinListComponent from 'src/components/PinListComponent.vue';
+import PinComponent from 'src/components/PinComponent.vue';
+import CustomPinComponent from 'src/components/CustomPinComponent.vue';
 
 const leftDrawerOpen = ref(true);
+const selectedPin = ref<Pin>({
+  id: 1,
+  value: '2580',
+  hasBeenTried: false
+});
+
+const pinListRef = ref();
+
+const updateSelectedPin = (newSelectedPin: Pin) => {
+  selectedPin.value = newSelectedPin;
+}
+
+const updatePinList = (storedPin: Pin) => {
+  pinListRef.value.getPinList(storedPin.id);
+}
+
 </script>

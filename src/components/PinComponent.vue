@@ -1,8 +1,8 @@
 <template>
   <div class="pin-container">
-    <div class="header q-pa-sm row justify-end">tried</div>
+    <div class="header text-muted q-pa-sm row justify-end">{{selectedPin.hasBeenTried ? 'Tried' : 'Not tried'}}</div>
     <div class="body q-py-lg">
-      <q-input dense label="try this" :model-value="currentPin"></q-input>
+      <q-input type="number" class="pin-input" dense :model-value="selectedPin.value"></q-input>
     </div>
     <div class="footer row justify-around">
       <q-btn
@@ -10,7 +10,7 @@
         dense
         no-caps
         color="positive"
-        @click="pinTried()"
+        @click="getRandomPin()"
         label="Random"
       ></q-btn>
       <q-btn
@@ -26,18 +26,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { Pin } from './models';
+import { api } from 'src/boot/axios';
 
-const currentPin = ref('1234');
+const props = defineProps<{
+  selectedPin: Pin
+}>()
+
+const emit = defineEmits(['updatePinList']);
 
 const pinTried = () => {
-  console.log(currentPin.value);
-};
-</script>
-
-<style lang="scss">
-.pin-container {
-  width: 70%;
-  max-width: 45rem;
+  api.post('/'+props.selectedPin.id);
+  emit('updatePinList', props.selectedPin);
 }
-</style>
+
+const getRandomPin = () => {
+  console.log('getRandomPin');
+}
+
+</script>

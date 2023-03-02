@@ -10,6 +10,7 @@
         dense
         :color="!!pin.hasBeenTried ? 'positive' : 'negative'"
         :label="pin.value"
+        @click="newPinSelected(pin)"
       ></q-btn>
     </div>
   </div>
@@ -22,14 +23,20 @@ import { Pin } from './models';
 
 const pinList = ref();
 
-onBeforeMount(async () => {
-  pinList.value = await getPinList();
-  console.log(pinList.value);
+const emit = defineEmits(['updateSelectedPin']);
+
+onBeforeMount(() => {
+  getPinList();
 })
 
-const getPinList = async () => {
-  let response: Pin[] = (await api.get('')).data;
-  return response;
+const getPinList = (id?: number) => {
+  id ??= 0;
+  api.get('/'+id).then(resp => { pinList.value = resp.data});
 };
+
+const newPinSelected = (newPinSelected: Pin) => {
+  getPinList(newPinSelected.id);
+  emit('updateSelectedPin', newPinSelected);
+}
 
 </script>
