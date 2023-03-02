@@ -1,5 +1,5 @@
 export interface Pin {
   id: number;
-  pin: string;
-  tried: boolean;
+  value: string;
+  hasBeenTried: boolean;
 }

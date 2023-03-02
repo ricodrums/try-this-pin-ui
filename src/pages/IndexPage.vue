@@ -6,5 +6,4 @@
 
 <script setup lang="ts">
 import PinComponent from 'src/components/PinComponent.vue';
-
 </script>
