@@ -17,13 +17,13 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, computed } from 'vue';
 import { api } from 'src/boot/axios';
 import { Pin } from './models';
+import { usePinStore } from 'src/stores/pin';
 
-const pinList = ref();
-
-const emit = defineEmits(['updateSelectedPin']);
+const pinStore = usePinStore();
+const pinList =  computed(() => pinStore.getPinList);
 
 onBeforeMount(() => {
   getPinList();
@@ -31,12 +31,14 @@ onBeforeMount(() => {
 
 const getPinList = (id?: number) => {
   id ??= 0;
-  api.get('/'+id).then(resp => { pinList.value = resp.data});
+  api.get('/'+id).then(resp => { 
+    pinStore.setNewPinList(resp.data);
+  });
 };
 
 const newPinSelected = (newPinSelected: Pin) => {
   getPinList(newPinSelected.id);
-  emit('updateSelectedPin', newPinSelected);
+  pinStore.setSelectedPin(newPinSelected);
 }
 
 </script>

@@ -3,3 +3,8 @@ export interface Pin {
   value: string;
   hasBeenTried: boolean;
 }
+
+export interface State {
+  pinList?: Pin[],
+  selectedPin?: Pin
+}
