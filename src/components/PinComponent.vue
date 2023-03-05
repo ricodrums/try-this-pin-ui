@@ -26,18 +26,21 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Pin } from './models';
 import { api } from 'src/boot/axios';
+import { usePinStore } from 'src/stores/pin';
 
-const props = defineProps<{
-  selectedPin: Pin
-}>()
+const pinStore = usePinStore();
 
-const emit = defineEmits(['updatePinList']);
+const selectedPin = computed(() => pinStore.getSelectedPin);
 
 const pinTried = () => {
-  api.post('/'+props.selectedPin.id);
-  emit('updatePinList', props.selectedPin);
+  api.post('/'+selectedPin.value.id);
+  api.get('/'+selectedPin.value.id).then(resp => { 
+    pinStore.setNewPinList(resp.data);
+  });
+  pinStore.setSelectedPin(pinStore.getNextPin);
 }
 
 const getRandomPin = () => {

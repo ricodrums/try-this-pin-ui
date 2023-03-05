@@ -13,6 +13,7 @@ export const usePinStore = defineStore('pin', {
   getters: {
     getPinList: (state) => state.pinList,
     getSelectedPin: (state) => state.selectedPin,
+    getNextPin: (state) => state.pinList.find((pin: Pin) => !pin.hasBeenTried) || defaultPin
   },
 
   actions: {
